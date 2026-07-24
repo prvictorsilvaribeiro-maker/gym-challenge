@@ -14,7 +14,7 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Desafio de Treino',
+  title: 'CACHARATS',
   description: 'Placar do desafio de treino entre os amigos — 27/07 a 03/12/2026',
 };
 
