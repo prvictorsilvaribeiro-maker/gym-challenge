@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { logout } from '@/app/auth/actions';
 import WorkoutForm from '@/components/WorkoutForm';
 import Leaderboard from '@/components/Leaderboard';
 import Avatar from '@/components/Avatar';
+import NavTabs from '@/components/NavTabs';
 import type { LeaderboardRow, Profile } from '@/types/database';
 import { DESAFIO_FIM, DESAFIO_INICIO } from '@/types/database';
 
@@ -56,6 +56,7 @@ export default async function DashboardPage() {
       <p className="text-center text-xs tracking-[0.3em] uppercase text-arena-lime mb-4">
         CACHARATS
       </p>
+      <NavTabs current="painel" />
       <header className="flex items-center justify-between mb-8 gap-3">
         <div className="flex items-center gap-3 min-w-0">
           {meuProfile?.avatar_url && <Avatar value={meuProfile.avatar_url} size={44} />}
@@ -66,16 +67,11 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
-        <div className="shrink-0 flex items-center gap-4">
-          <Link href="/feed" className="text-sm text-arena-lime hover:underline">
-            Feed
-          </Link>
-          <form action={logout}>
-            <button className="text-sm text-arena-mute hover:text-arena-ice transition">
-              Sair
-            </button>
-          </form>
-        </div>
+        <form action={logout} className="shrink-0">
+          <button className="text-sm text-arena-mute hover:text-arena-ice transition">
+            Sair
+          </button>
+        </form>
       </header>
 
       <section className="bg-arena-card border border-arena-line rounded-2xl p-5 mb-6">
