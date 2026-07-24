@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import Avatar from '@/components/Avatar';
 import CommentForm from '@/components/CommentForm';
+import NavTabs from '@/components/NavTabs';
 
 const ROTULO_TIPO: Record<string, string> = {
   musculacao: 'Musculação',
@@ -53,16 +54,9 @@ export default async function FeedPage({
       <p className="text-center text-xs tracking-[0.3em] uppercase text-arena-lime mb-4">
         CACHARATS
       </p>
+      <NavTabs current="feed" />
 
-      <div className="flex items-center justify-between mb-6 gap-3">
-        <h1 className="font-display text-3xl tracking-wide">FEED DE TREINOS</h1>
-        <Link
-          href="/dashboard"
-          className="text-sm text-arena-mute hover:text-arena-ice transition shrink-0"
-        >
-          ← Painel
-        </Link>
-      </div>
+      <h1 className="font-display text-3xl tracking-wide mb-6">FEED DE TREINOS</h1>
 
       <div className="flex gap-2 mb-6">
         <Link
