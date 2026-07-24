@@ -22,6 +22,12 @@ export async function registrarTreino(formData: FormData) {
     return { erro: 'Preencha data, tipo e duração.' };
   }
 
+  // Regra 3: sem treino aos domingos — bloqueia antes de ir ao banco
+  const diaDaSemana = new Date(`${data_treino}T00:00:00`).getDay();
+  if (diaDaSemana === 0) {
+    return { erro: 'Opaaa, hoje não, hoje é dia do Senhor, vai pra igreja descansa! 🙏' };
+  }
+
   const { error } = await supabase.from('workouts').insert({
     user_id: user.id,
     data_treino,
@@ -30,7 +36,10 @@ export async function registrarTreino(formData: FormData) {
   });
 
   if (error) {
-    // As mensagens de constraint/trigger do banco já vêm em português
+    // Se por algum motivo passar da validação acima e cair na constraint do banco
+    if (error.message.includes('sem_domingo')) {
+      return { erro: 'Opaaa, hoje não, hoje é dia do Senhor, vai pra igreja descansa! 🙏' };
+    }
     return { erro: error.message };
   }
 
