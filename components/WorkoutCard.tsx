@@ -25,9 +25,11 @@ function formatarHora(iso: string) {
 export default function WorkoutCard({
   treino,
   podeEditar,
+  pontosContados,
 }: {
   treino: any;
   podeEditar: boolean;
+  pontosContados: number;
 }) {
   const [editando, setEditando] = useState(false);
   const [pending, startTransition] = useTransition();
@@ -63,13 +65,20 @@ export default function WorkoutCard({
         </div>
         <div className="text-right shrink-0">
           <p className="font-display text-2xl text-arena-lime leading-none">
-            +{treino.pontos}
+            +{pontosContados}
           </p>
           <p className="text-xs text-arena-mute">
-            {treino.pontos === 1 ? 'ponto' : 'pontos'}
+            {pontosContados === 1 ? 'ponto' : 'pontos'}
           </p>
         </div>
       </div>
+
+      {pontosContados < treino.pontos && (
+        <p className="text-xs text-arena-gold mt-2">
+          Esse treino vale {treino.pontos} pts, mas só {pontosContados} contou — teto de 2
+          pts/dia já tinha sido atingido.
+        </p>
+      )}
 
       {!editando ? (
         <p className="text-sm mt-3">
