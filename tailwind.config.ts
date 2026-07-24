@@ -6,15 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         arena: {
-          bg: '#0E1512',        // verde-preto de quadra à noite
-          card: '#141F1A',
-          line: '#243830',
-          lime: '#C8FF3D',      // acento — placar de estádio
-          lime2: '#9FE02A',
+          bg: '#150D0D',        // preto com fundo quente
+          card: '#1F1414',
+          line: '#3A2323',
+          lime: '#FF3B3B',      // acento — vermelho CACHARATS (nome mantido p/ não quebrar as classes)
+          lime2: '#D92B2B',
           gold: '#FFC94A',
-          coral: '#FF6B57',
-          ice: '#EAF3EE',
-          mute: '#7C9086',
+          coral: '#FF9F1C',     // erros — laranja, pra não confundir com o vermelho da marca
+          ice: '#F3EAEA',
+          mute: '#907C7C',
         },
       },
       fontFamily: {
@@ -22,7 +22,7 @@ const config: Config = {
         body: ['var(--font-body)'],
       },
       boxShadow: {
-        glow: '0 0 0 1px rgba(200,255,61,0.15), 0 8px 30px rgba(200,255,61,0.08)',
+        glow: '0 0 0 1px rgba(255,59,59,0.18), 0 8px 30px rgba(255,59,59,0.1)',
       },
     },
   },
