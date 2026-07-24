@@ -17,6 +17,14 @@ export interface Workout {
   created_at: string;
 }
 
+export interface Comentario {
+  id: string;
+  workout_id: string;
+  user_id: string;
+  texto: string;
+  created_at: string;
+}
+
 export interface LeaderboardRow {
   id: string;
   apelido: string;
