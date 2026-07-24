@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { logout } from '@/app/auth/actions';
 import WorkoutForm from '@/components/WorkoutForm';
 import Leaderboard from '@/components/Leaderboard';
+import Avatar from '@/components/Avatar';
 import type { LeaderboardRow, Profile } from '@/types/database';
 import { DESAFIO_FIM, DESAFIO_INICIO } from '@/types/database';
 
@@ -51,24 +52,20 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen px-4 py-8 max-w-5xl mx-auto">
-      <header className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-3">
-          {meuProfile?.avatar_url && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={meuProfile.avatar_url}
-              alt=""
-              className="w-11 h-11 rounded-full border border-arena-line"
-            />
-          )}
-          <div>
+      <p className="text-center text-xs tracking-[0.3em] uppercase text-arena-lime mb-4">
+        CACHARATS
+      </p>
+      <header className="flex items-center justify-between mb-8 gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          {meuProfile?.avatar_url && <Avatar value={meuProfile.avatar_url} size={44} />}
+          <div className="min-w-0">
             <p className="text-xs text-arena-mute uppercase tracking-wide">Bem-vindo</p>
-            <p className="font-display text-2xl tracking-wide leading-none">
+            <p className="font-display text-2xl tracking-wide leading-none truncate">
               {meuProfile?.apelido ?? 'Atleta'}
             </p>
           </div>
         </div>
-        <form action={logout}>
+        <form action={logout} className="shrink-0">
           <button className="text-sm text-arena-mute hover:text-arena-ice transition">
             Sair
           </button>
