@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import NavTabs from '@/components/NavTabs';
 import WorkoutCard from '@/components/WorkoutCard';
 import { dentroDoPrazo } from '@/lib/prazo';
+import { calcularContribuicoes } from '@/lib/pontos';
 
 export default async function FeedPage({
   searchParams,
@@ -36,6 +37,7 @@ export default async function FeedPage({
   }
 
   const { data: treinos } = await query;
+  const contribuicoes = calcularContribuicoes((treinos ?? []) as any);
 
   return (
     <main className="min-h-screen px-4 py-8 max-w-2xl mx-auto">
@@ -80,6 +82,7 @@ export default async function FeedPage({
           <WorkoutCard
             key={treino.id}
             treino={treino}
+            pontosContados={contribuicoes.get(treino.id) ?? treino.pontos}
             podeEditar={treino.user_id === user?.id && dentroDoPrazo(treino.data_treino)}
           />
         ))}
