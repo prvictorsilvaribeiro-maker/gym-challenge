@@ -13,7 +13,7 @@ export default function LoginPage({
           <p className="text-arena-lime text-sm tracking-[0.3em] uppercase mb-1">
             27/07 — 03/12/2026
           </p>
-          <h1 className="font-display text-5xl tracking-wide">DESAFIO DE TREINO</h1>
+          <h1 className="font-display text-5xl sm:text-6xl tracking-wide">CACHARATS</h1>
         </div>
 
         <form
