@@ -1,4 +1,5 @@
 import type { LeaderboardRow } from '@/types/database';
+import Avatar from '@/components/Avatar';
 
 const MEDALHA = ['🥇', '🥈', '🥉', '🎗️'];
 
@@ -34,12 +35,7 @@ export default function Leaderboard({
                 <span className="text-xl w-6 text-center shrink-0">
                   {MEDALHA[i] ?? i + 1}
                 </span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={row.avatar_url}
-                  alt=""
-                  className="w-9 h-9 rounded-full border border-arena-line shrink-0"
-                />
+                <Avatar value={row.avatar_url} size={36} />
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-baseline gap-2">
                     <span className="truncate font-medium">
