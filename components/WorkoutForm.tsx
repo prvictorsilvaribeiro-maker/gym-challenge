@@ -10,6 +10,14 @@ export default function WorkoutForm() {
   const [erro, setErro] = useState<string | null>(null);
   const [sucesso, setSucesso] = useState(false);
 
+  const hoje = new Date();
+  const ontem = new Date(hoje);
+  ontem.setDate(hoje.getDate() - 1);
+  const paraISO = (d: Date) => d.toISOString().slice(0, 10);
+
+  const dataMinima = [paraISO(ontem), DESAFIO_INICIO].sort().pop()!;
+  const dataMaxima = [paraISO(hoje), DESAFIO_FIM].sort()[0];
+
   async function handleSubmit(formData: FormData) {
     setErro(null);
     setSucesso(false);
@@ -52,11 +60,13 @@ export default function WorkoutForm() {
           name="data_treino"
           type="date"
           required
-          min={DESAFIO_INICIO}
-          max={DESAFIO_FIM}
+          min={dataMinima}
+          max={dataMaxima}
           className="mt-1 w-full rounded-lg bg-arena-bg border border-arena-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-arena-lime [color-scheme:dark]"
         />
-        <p className="text-xs text-arena-mute mt-1">Domingo não conta — o banco recusa automaticamente.</p>
+        <p className="text-xs text-arena-mute mt-1">
+          Domingo não conta. Prazo pra registrar: até o dia seguinte ao treino.
+        </p>
       </div>
 
       <div>
