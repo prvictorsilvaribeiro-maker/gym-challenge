@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { logout } from '@/app/auth/actions';
 import WorkoutForm from '@/components/WorkoutForm';
@@ -65,11 +66,16 @@ export default async function DashboardPage() {
             </p>
           </div>
         </div>
-        <form action={logout} className="shrink-0">
-          <button className="text-sm text-arena-mute hover:text-arena-ice transition">
-            Sair
-          </button>
-        </form>
+        <div className="shrink-0 flex items-center gap-4">
+          <Link href="/feed" className="text-sm text-arena-lime hover:underline">
+            Feed
+          </Link>
+          <form action={logout}>
+            <button className="text-sm text-arena-mute hover:text-arena-ice transition">
+              Sair
+            </button>
+          </form>
+        </div>
       </header>
 
       <section className="bg-arena-card border border-arena-line rounded-2xl p-5 mb-6">
