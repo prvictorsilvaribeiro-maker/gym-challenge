@@ -1,25 +1,8 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import Avatar from '@/components/Avatar';
-import CommentForm from '@/components/CommentForm';
 import NavTabs from '@/components/NavTabs';
-
-const ROTULO_TIPO: Record<string, string> = {
-  musculacao: 'Musculação',
-  cardio: 'Cardio',
-};
-
-function formatarData(data: string) {
-  const [ano, mes, dia] = data.split('-');
-  return `${dia}/${mes}/${ano}`;
-}
-
-function formatarHora(iso: string) {
-  return new Date(iso).toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-}
+import WorkoutCard from '@/components/WorkoutCard';
+import { dentroDoPrazo } from '@/lib/prazo';
 
 export default async function FeedPage({
   searchParams,
@@ -27,6 +10,11 @@ export default async function FeedPage({
   searchParams: { filtro?: string };
 }) {
   const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const hoje = new Date().toISOString().slice(0, 10);
   const filtroHoje = searchParams.filtro === 'hoje';
 
@@ -34,7 +22,7 @@ export default async function FeedPage({
     .from('workouts')
     .select(
       `
-      id, data_treino, tipo, duracao_minutos, pontos, created_at,
+      id, user_id, data_treino, tipo, duracao_minutos, pontos, created_at,
       profiles ( apelido, avatar_url ),
       comentarios ( id, texto, created_at, profiles ( apelido, avatar_url ) )
     `
@@ -89,50 +77,11 @@ export default async function FeedPage({
         )}
 
         {(treinos ?? []).map((treino: any) => (
-          <article
+          <WorkoutCard
             key={treino.id}
-            className="bg-arena-card border border-arena-line rounded-2xl p-4"
-          >
-            <div className="flex items-center gap-3">
-              <Avatar value={treino.profiles?.avatar_url ?? ''} size={40} />
-              <div className="flex-1 min-w-0">
-                <p className="font-medium truncate">
-                  {treino.profiles?.apelido ?? 'Atleta'}
-                </p>
-                <p className="text-xs text-arena-mute">
-                  {formatarData(treino.data_treino)} às {formatarHora(treino.created_at)}
-                </p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="font-display text-2xl text-arena-lime leading-none">
-                  +{treino.pontos}
-                </p>
-                <p className="text-xs text-arena-mute">
-                  {treino.pontos === 1 ? 'ponto' : 'pontos'}
-                </p>
-              </div>
-            </div>
-
-            <p className="text-sm mt-3">
-              {ROTULO_TIPO[treino.tipo] ?? treino.tipo} · {treino.duracao_minutos} min
-            </p>
-
-            {treino.comentarios?.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-arena-line space-y-2">
-                {treino.comentarios.map((c: any) => (
-                  <div key={c.id} className="flex items-start gap-2">
-                    <Avatar value={c.profiles?.avatar_url ?? ''} size={22} />
-                    <p className="text-sm leading-snug">
-                      <span className="font-medium">{c.profiles?.apelido}</span>{' '}
-                      {c.texto}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <CommentForm workoutId={treino.id} />
-          </article>
+            treino={treino}
+            podeEditar={treino.user_id === user?.id && dentroDoPrazo(treino.data_treino)}
+          />
         ))}
       </div>
     </main>
